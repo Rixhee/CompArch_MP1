@@ -8,7 +8,7 @@ module top(
 );
 
     // CLK frequency is 12MHz
-    parameter ONE_SECOND = 12000000;
+    parameter ONE_SECOND = 72000000;
     logic [$clog2(ONE_SECOND) - 1:0] count = 0;
 
     initial begin
@@ -22,20 +22,35 @@ module top(
         // Reset count every second
         if (count == ONE_SECOND - 1) begin
             count <= 0;
-            RGB_B = 1'b1;
-        end
-        else begin
-            
-            // Change RGB values based on the interval
-            case(count)
-                ONE_SECOND / 6: RGB_G = 1'b0;
-                ONE_SECOND / 3: RGB_R = 1'b1;
-                ONE_SECOND / 2: RGB_B = 1'b0;
-                ONE_SECOND * 2 / 3: RGB_G = 1'b1;
-                ONE_SECOND * 5 / 6: RGB_R = 1'b0;
-            endcase
-                
+        end else begin
             count <= count + 1;
+        end
+
+        // Set RGB values for each interval
+        if (count < ONE_SECOND / 6) begin
+            RGB_R = 1'b0;
+            RGB_G = 1'b1;
+            RGB_B = 1'b1;
+        end else if (count < ONE_SECOND / 3) begin
+            RGB_R = 1'b0;
+            RGB_G = 1'b0;
+            RGB_B = 1'b1;
+        end else if (count < ONE_SECOND / 2) begin
+            RGB_R = 1'b1;
+            RGB_G = 1'b0;
+            RGB_B = 1'b1;
+        end else if (count < ONE_SECOND * 2 / 3) begin
+            RGB_R = 1'b1;
+            RGB_G = 1'b0;
+            RGB_B = 1'b0;
+        end else if (count < ONE_SECOND * 5 / 6) begin
+            RGB_R = 1'b1;
+            RGB_G = 1'b1;
+            RGB_B = 1'b0;
+        end else begin
+            RGB_R = 1'b0;
+            RGB_G = 1'b1;
+            RGB_B = 1'b0;
         end
     end
 
