@@ -8,7 +8,7 @@ module top(
 );
 
     // CLK frequency is 12MHz
-    parameter ONE_SECOND = 72000000;
+    parameter ONE_SECOND = 12000000;
     logic [$clog2(ONE_SECOND) - 1:0] count = 0;
 
     initial begin
